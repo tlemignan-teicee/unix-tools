@@ -1,0 +1,38 @@
+# file : ~/.bashrc
+
+################################
+###### Custom Functions ########
+################################
+
+default_random_string_length=50;
+
+randomize()
+{
+    if [ "$1" ] && [ "$1" -eq "$1" ]; then
+        random_string_length="$1";
+    else
+        random_string_length="$default_random_string_length";
+    fi
+
+    value=`(cat /dev/urandom | tr -dc '0-9a-zA-Z' | fold -w 256 | head -n 1 | sed -e 's/^0*//' | head --bytes "$random_string_length")`;
+    echo "$value";
+}
+
+################################
+################################
+
+############################
+###### Custom Alias ########
+############################
+
+# Custom Alias :
+export PROMPT_COMMAND="echo -n \[\$(date +'%F %T')\]\ "
+alias ll="ls -lah"
+alias 42="echo 'the answer'"
+alias dce="docker-compose exec"
+alias c?="who -T | tr -s ' ' | cut -d ' ' -f 1-2 | sort -u"
+alias veille="systemctl suspend"
+alias rand="randomize"
+
+############################
+############################
