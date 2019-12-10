@@ -3,8 +3,8 @@
 ################################
 ###### Custom Functions ########
 ################################
-
-default_random_string_length=50;
+## Random Function
+export default_random_string_length=50;
 
 randomize()
 {
@@ -16,6 +16,17 @@ randomize()
 
     value=`(cat /dev/urandom | tr -dc '0-9a-zA-Z' | fold -w 256 | head -n 1 | sed -e 's/^0*//' | head --bytes "$random_string_length")`;
     echo "$value";
+}
+
+# Test Log Function
+export log_test_path="/var/log/test.log"   
+
+log_test_init()
+{
+    if [ ! -f "$log_test_path" ]; then
+        sudo touch "$log_test_path"
+        sudo chown $USER:$USER "$log_test_path"
+    fi
 }
 
 ################################
@@ -32,7 +43,12 @@ alias 42="echo 'the answer'"
 alias dce="docker-compose exec"
 alias c?="who -T | tr -s ' ' | cut -d ' ' -f 1-2 | sort -u"
 alias veille="systemctl suspend"
+# random
 alias rand="randomize"
+# test.log
+alias ttl="log_test_init && tail -f \"$log_test_path\""
+alias tcl="log_test_init && echo \"\" > \"$log_test_path\""
+alias tc="log_test_init && cat $log_test_path"
 
 ############################
 ############################
